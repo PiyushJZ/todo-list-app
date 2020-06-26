@@ -26,6 +26,8 @@ class App extends React.Component {
           placeholder="Task Name"
           style={{ margin: 10 }}
         />
+        Deadline:
+        <input id="deadline" type="date" style={{ margin: 10 }} />
         <br />
         <input
           type="button"
@@ -51,11 +53,12 @@ class App extends React.Component {
   addTodo() {
     // add a new task.
     const text = document.getElementById("textbox").value;
+    const deadline = document.getElementById("deadline").value;
     document.getElementById("textbox").value = "";
     this.setState({
       tasks: [
         ...this.state.tasks,
-        { id: id++, text: text, checked: false }
+        { id: id++, text: text, checked: false, deadline: deadline }
       ]
     });
   }
@@ -76,6 +79,7 @@ class App extends React.Component {
           id: task.id,
           text: task.text,
           checked: !task.checked,
+          deadline: task.deadline
         };
       })
     });
@@ -92,6 +96,7 @@ function Task(props) {
       />
       <span style={{ marginLeft: 5 }}>
         {props.task.text}
+        {", Deadline: " + props.task.deadline}
       </span>
       <button
         style={{ position: "absolute", right: 10 }}
