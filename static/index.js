@@ -7,7 +7,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
+      tasks: []
     };
   }
   render() {
@@ -17,14 +17,17 @@ class App extends React.Component {
         <div>Total Tasks: {this.state.tasks.length} </div>
         <div>
           Unchecked Tasks:{" "}
-          {this.state.tasks.filter((todo) => !todo.checked).length}
+          {this.state.tasks.filter(todo => !todo.checked).length}
         </div>
+        Task Name:
         <input
           id="textbox"
           type="text"
           placeholder="Task Name"
           style={{ margin: 10 }}
         />
+        Deadline:
+        <input id="deadline" type="date" style={{ margin: 10 }} />
         <br />
         <input
           type="button"
@@ -33,7 +36,7 @@ class App extends React.Component {
           onClick={() => this.addTodo()}
         />
         <ol>
-          {this.state.tasks.map((task) => (
+          {this.state.tasks.map(task => (
             <li>
               <Task
                 onToggle={() => this.toggleTodo(task.id)}
@@ -50,30 +53,35 @@ class App extends React.Component {
   addTodo() {
     // add a new task.
     const text = document.getElementById("textbox").value;
+    const deadline = document.getElementById("deadline").value;
     document.getElementById("textbox").value = "";
     this.setState({
-      tasks: [...this.state.tasks, { id: id++, text: text, checked: false }],
+      tasks: [
+        ...this.state.tasks,
+        { id: id++, text: text, checked: false, deadline: deadline }
+      ]
     });
   }
 
   deleteTodo(id) {
     // delete the task
     this.setState({
-      tasks: this.state.tasks.filter((task) => task.id !== id),
+      tasks: this.state.tasks.filter(task => task.id !== id)
     });
   }
 
   toggleTodo(id) {
     // change the status of the task.
     this.setState({
-      tasks: this.state.tasks.map((task) => {
+      tasks: this.state.tasks.map(task => {
         if (task.id !== id) return task;
         return {
           id: task.id,
           text: task.text,
           checked: !task.checked,
+          deadline: task.deadline
         };
-      }),
+      })
     });
   }
 }
@@ -86,7 +94,10 @@ function Task(props) {
         onChange={props.onToggle}
         checked={props.task.checked}
       />
-      <span style={{ marginLeft: 5 }}>{props.task.text}</span>
+      <span style={{ marginLeft: 5 }}>
+        {props.task.text}
+        {", Deadline: " + props.task.deadline}
+      </span>
       <button
         style={{ position: "absolute", right: 10 }}
         onClick={props.onDelete}
